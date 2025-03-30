@@ -51,36 +51,32 @@ int countPairs3(int *arr, int len, int value) {
         int complement = value - arr[i];
         int low = i + 1;
         int high = len - 1;
-        int first = -1, last = -1;
-
+        
+        int first = len;
         while (low <= high) {
             int mid = low + (high - low) / 2;
             if (arr[mid] >= complement) {
+                first = mid;
                 high = mid - 1;
-                if (arr[mid] == complement) {
-                    first = mid;
-                }
             } else {
                 low = mid + 1;
             }
         }
-
-        if (first != -1) {
-            low = first;
-            high = len - 1;
-            while (low <= high) {
-                int mid = low + (high - low) / 2;
-                if (arr[mid] <= complement) {
-                    low = mid + 1;
-                    if (arr[mid] == complement) {
-                        last = mid;
-                    }
-                } else {
-                    high = mid - 1;
-                }
+        
+        int last = first - 1;
+        low = first;
+        high = len - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] <= complement) {
+                last = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
             }
-            count += (last - first + 1);
         }
+        
+        count += (last - first + 1);
     }
     return count;
 }
