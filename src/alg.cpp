@@ -19,23 +19,24 @@ int countPairs2(int *arr, int len, int value) {
         int sum = arr[left] + arr[right];
         if (sum == value) {
             if (arr[left] == arr[right]) {
-                int n = right - left + 1;
-                count += n * (n - 1) / 2;
+                count += (right - left + 1) * (right - left) / 2;
                 break;
             }
             int left_val = arr[left];
             int right_val = arr[right];
-            int left_count = 0;
-            while (left < len && arr[left] == left_val) {
+            int left_count = 1;
+            while (left + 1 < len && arr[left + 1] == left_val) {
                 left++;
                 left_count++;
             }
-            int right_count = 0;
-            while (right >= 0 && arr[right] == right_val) {
+            int right_count = 1;
+            while (right - 1 >= 0 && arr[right - 1] == right_val) {
                 right--;
                 right_count++;
             }
             count += left_count * right_count;
+            left++;
+            right--;
         } else if (sum < value) {
             left++;
         } else {
@@ -49,34 +50,29 @@ int countPairs3(int *arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len; ++i) {
         int complement = value - arr[i];
-        int low = i + 1;
-        int high = len - 1;
-        
-        int first = len;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (arr[mid] >= complement) {
-                first = mid;
-                high = mid - 1;
+        int left = i + 1;
+        int right = len - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] == complement) {
+                count++;
+                int l = mid - 1;
+                while (l >= left && arr[l] == complement) {
+                    count++;
+                    l--;
+                }
+                int r = mid + 1;
+                while (r <= right && arr[r] == complement) {
+                    count++;
+                    r++;
+                }
+                break;
+            } else if (arr[mid] < complement) {
+                left = mid + 1;
             } else {
-                low = mid + 1;
+                right = mid - 1;
             }
         }
-        
-        int last = first - 1;
-        low = first;
-        high = len - 1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (arr[mid] <= complement) {
-                last = mid;
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-        }
-        
-        count += (last - first + 1);
     }
     return count;
 }
