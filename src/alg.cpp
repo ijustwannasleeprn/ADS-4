@@ -48,12 +48,16 @@ int countPairs2(int *arr, int len, int value) {
 
 int countPairs3(int *arr, int len, int value) {
     int count = 0;
+    std::sort(arr, arr + len);
+    
     for (int i = 0; i < len; ++i) {
         int complement = value - arr[i];
         int left = i + 1;
         int right = len - 1;
+        
         while (left <= right) {
             int mid = left + (right - left) / 2;
+            
             if (arr[mid] == complement) {
                 count++;
                 int l = mid - 1;
@@ -61,6 +65,7 @@ int countPairs3(int *arr, int len, int value) {
                     count++;
                     l--;
                 }
+                
                 int r = mid + 1;
                 while (r <= right && arr[r] == complement) {
                     count++;
