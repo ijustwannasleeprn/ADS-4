@@ -26,12 +26,12 @@ int countPairs2(int *arr, int len, int value) {
             int left_val = arr[left];
             int right_val = arr[right];
             int left_count = 0;
-            while (arr[left] == left_val) {
+            while (left < len && arr[left] == left_val) {
                 left++;
                 left_count++;
             }
             int right_count = 0;
-            while (arr[right] == right_val) {
+            while (right >= 0 && arr[right] == right_val) {
                 right--;
                 right_count++;
             }
@@ -51,26 +51,35 @@ int countPairs3(int *arr, int len, int value) {
         int complement = value - arr[i];
         int low = i + 1;
         int high = len - 1;
+        int first = -1, last = -1;
+
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            if (arr[mid] == complement) {
-                count++;
-                int left = mid - 1;
-                while (left >= low && arr[left] == complement) {
-                    count++;
-                    left--;
-                }
-                int right = mid + 1;
-                while (right <= high && arr[right] == complement) {
-                    count++;
-                    right++;
-                }
-                break;
-            } else if (arr[mid] < complement) {
-                low = mid + 1;
-            } else {
+            if (arr[mid] >= complement) {
                 high = mid - 1;
+                if (arr[mid] == complement) {
+                    first = mid;
+                }
+            } else {
+                low = mid + 1;
             }
+        }
+
+        if (first != -1) {
+            low = first;
+            high = len - 1;
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                if (arr[mid] <= complement) {
+                    low = mid + 1;
+                    if (arr[mid] == complement) {
+                        last = mid;
+                    }
+                } else {
+                    high = mid - 1;
+                }
+            }
+            count += (last - first + 1);
         }
     }
     return count;
