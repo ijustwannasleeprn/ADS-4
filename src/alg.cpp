@@ -40,16 +40,21 @@ int countPairs2(int *arr, int len, int value) {
     }
     return count;
 }
-
 int countPairs3(int *arr, int len, int value) {
-    std::unordered_map<int, int> freq;
     int count = 0;
+    std::sort(arr, arr + len);
+    
+    std::unordered_map<int, int> freq_map;
+    
     for (int i = 0; i < len; ++i) {
         int complement = value - arr[i];
-        if (freq.find(complement) != freq.end()) {
-            count += freq[complement];
+        
+        if (freq_map.find(complement) != freq_map.end()) {
+            count += freq_map[complement];
         }
-        freq[arr[i]]++;
+        
+        freq_map[arr[i]]++;
     }
+    
     return count;
 }
