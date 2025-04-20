@@ -29,13 +29,11 @@ int countPairs2(int *arr, int size, int targetSum) {
             int mid = left + (right - left) / 2;
             if (arr[mid] == requiredValue) {
                 pairCount++;
-                // Count duplicates to the left
                 int temp = mid - 1;
                 while (temp >= left && arr[temp] == requiredValue) {
                     pairCount++;
                     temp--;
                 }
-                // Count duplicates to the right
                 temp = mid + 1;
                 while (temp <= right && arr[temp] == requiredValue) {
                     pairCount++;
@@ -57,7 +55,6 @@ int findMatches(int *arr, int start, int end, int target) {
     int left = start;
     int right = end;
     
-    // Find first occurrence of target
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] >= target) {
