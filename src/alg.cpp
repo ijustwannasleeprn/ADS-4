@@ -14,17 +14,14 @@ int countPairs1(int *arr, int size, int targetSum) {
 int countPairs2(int *arr, int size, int targetSum) {
     int pairCount = 0;
     int highBound = size - 1;
-    
     while (highBound > 0 && arr[highBound] > targetSum) {
         highBound--;
     }
-    
     for (int lowBound = 0; lowBound < highBound; lowBound++) {
         int currentValue = arr[lowBound];
         int requiredValue = targetSum - currentValue;
         int left = lowBound + 1;
         int right = highBound;
-        
         while (left <= right) {
             int mid = left + (right - left) / 2;
             if (arr[mid] == requiredValue) {
@@ -54,7 +51,6 @@ int findMatches(int *arr, int start, int end, int target) {
     int firstOccurrence = -1;
     int left = start;
     int right = end;
-    
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] >= target) {
@@ -64,13 +60,10 @@ int findMatches(int *arr, int start, int end, int target) {
             left = mid + 1;
         }
     }
-    
     if (firstOccurrence == -1) return 0;
-    
     int lastOccurrence = firstOccurrence;
     left = firstOccurrence;
     right = end;
-    
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] <= target) {
@@ -80,7 +73,6 @@ int findMatches(int *arr, int start, int end, int target) {
             right = mid - 1;
         }
     }
-    
     return lastOccurrence - firstOccurrence + 1;
 }
 
